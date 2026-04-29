@@ -28,7 +28,7 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
 
 ---
 
-## 🔍 Common Failure Points:
+## ⚡Common Failure Points:
 
 * **Fuse (F1)**
   * Often blows :).
@@ -48,6 +48,19 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
   * This area of the board seems to be causing most of the problems present in the device.
 
 ---
+
+## 🔍 My instance
+
+* The speaker was non-responsive when i got it.
+* The first thing i noticed, when i took it apart, was a burn mark on the heatsink of the Audio Amp **[TSA5342A](https://w.electrodragon.com/w/images/2/27/EL817.pdf)**.
+* After investigating the issue, i found that one of the pins **(OUT_B)**  - along with the corresponding track - was burnt.
+* I did some measurments and a couple of the pins of the IC were shorted, after removing the IC the shorts were gone - which means the ic was toast.
+* I tried to plug the speaker in, after removing the Audio Amp IC, but the fuse **(F1)** blew after a couple minutes of measurments.
+* After removing most of the black glue and desoldering some of the components present in the SMPS section of the board i measured 6.1 ohms on the **R20** resistor - which was marked for 200k ohms.
+* Looking for the cause, i noticed that the **D5** [Rectifying Diode](https://www.mouser.pl/datasheet/3/175/1/ds16005.pdf) and the **D15** [TVS Diode](https://www.mouser.pl/datasheet/3/819/1/1.5KE-HF%20Series%20RevC.pdf) were both shorted.
+* The rest of the components, MOSFET, driver, resistors and the electrolytic capacitors look fine.
+* I have now removed D5 along with D15 and will order the replacements, as well as a replacement for the Audio Amp IC.
+* I will give updates when the parts arrive.
 
 ## 📄 The Schematic
 
