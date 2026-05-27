@@ -436,6 +436,14 @@
     [
       "07a1f132-eb18-4b07-ac49-9a90206e74ce",
       "Root"
+    ],
+    [
+      "db5ce843-5a63-4590-ad00-5c80aa11c193",
+      "SMPS Power Supply"
+    ],
+    [
+      "7a9c5357-e1d8-4ce8-babe-ab7c840c956c",
+      "Audio Stage"
     ]
   ],
   "text_variables": {}

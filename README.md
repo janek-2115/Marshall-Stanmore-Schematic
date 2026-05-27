@@ -71,7 +71,7 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
 </p>
 
 ### Download:
-* [High-Resolution Image (PNG)](png/schematic.png)
+* [High-Resolution Image (PNG)](png/power.png)
 
 ## 🤝 Contributing
 Feel free to fork this repository and add more parts of the schematic.
