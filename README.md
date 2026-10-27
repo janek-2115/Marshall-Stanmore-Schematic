@@ -62,12 +62,24 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
 * I have now removed D5 along with D15 and will order the replacements, as well as a replacement for the Audio Amp IC.
 * I will give updates when the parts arrive.
 
+## 🛠️ Update
+* I have successfully replaced the **D5** and **D15** diodes. 
+* To test the power supply safely, I powered on the speaker **WITHOUT** the audio amplifier IC soldered in. I had to leave it out for now because the previous IC burned out and I still need to repair two damaged copper traces on the PCB.
+* As a safety precaution, I powered the device with a 100W incandescent light bulb in series with the mains (dim bulb tester).
+* **The device works!** The logic board boots up, I am able to switch between audio sources, and I even successfully connected my phone to the speaker via Bluetooth.
+* I haven't tried powering the device directly from the wall without the series light bulb yet, but the bulb didn't glow at all during my tests, which is a great sign indicating there are no major shorts left on the board.
+* Also, i have divided the schematic into the **power** stage and the **audio** stage. The audio stage is not finished, and probably never will be, since i have put the speaker back together, but maybe it will help somebody.
+* Next step: I will repair the damaged traces, solder in the new audio amplifier, and post the final results soon!
+
 ## 📄 The Schematic
 
 *(Click the image to view the full resolution)*
 
 <p align="center">
-  <img src="png/schematic.png" alt="Marshall Stanmore I Power Supply Schematic" width="100%">
+  <img src="png/power.png" alt="Marshall Stanmore I Power Supply Schematic" width="100%">
+</p>
+<p align="center">
+  <img src="png/audio.png" alt="Marshall Stanmore I Power Supply Schematic" width="100%">
 </p>
 
 ### Download:
