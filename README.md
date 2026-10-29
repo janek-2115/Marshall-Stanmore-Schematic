@@ -19,7 +19,7 @@ Working on Switch-Mode Power Supplies (SMPS) is dangerous.
 The foundational work for this schematic was done by **Josef Aichhorn** ([@juptec](https://www.mikrocontroller.net/user/show/juptec)), who shared his original hand-drawn schematics on a [mikrocontroller.net forum thread](https://www.mikrocontroller.net/topic/547728). Huge thanks and respect to Josef for this schematic. This board is covered in glue and is rather complex, making reverse-engineering incredibly tedious.
 
 **My Contributions:**
-* Redrew the entire schematic in a KiCad 9 for better readability.
+* Redrew the entire schematic in KiCad 9 for better readability.
 * Verified (most of the) connections against my board.
 * Added some of the missing component values (resistors, capacitors, diodes).
 * Added direct links to datasheets for most of the main components.
@@ -44,6 +44,8 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
   * The main 150u, 400V electrolytic capacitor, sometimes shorted or high ESR.
 * **100W Audio Amp (U15) [TAS5342A](https://www.ti.com/lit/ds/symlink/tas5342a.pdf?ts=1777457999025)**
   * The main (and only) audio amp, legs sometimes burnt, along with the tracks.
+* **The 12V Voltage Regulator (U?) [KIA7812A](https://www.alldatasheet.com/datasheet-pdf/pdf/85489/KEC/KIA7812AF.html)**
+  * 12V regulator used to supply voltage for the Gate-drive (GVDD_x pins) of the audio amp. 
 * **Any components surrounding the OB2269N**
   * This area of the board seems to be causing most of the problems present in the device.
 
@@ -52,24 +54,37 @@ The foundational work for this schematic was done by **Josef Aichhorn** ([@jupte
 ## 🔍 My instance
 
 * The speaker was non-responsive when I got it.
-* The first thing I noticed, when i took it apart, was a burn mark on the heatsink of the Audio Amp **[TAS5342A](https://w.electrodragon.com/w/images/2/27/EL817.pdf)**.
-* After investigating the issue, i found that one of the pins **(OUT_B)**  - along with the corresponding track - was burnt.
-* I did some measurements and a couple of the pins of the IC were shorted, after removing the IC the shorts were gone - which means the IC was toast.
+* The first thing I noticed, when I took it apart, was a burn mark on the heatsink of the Audio Amp **[TAS5342A](https://www.ti.com/lit/ds/symlink/tas5342a.pdf?ts=1777457999025)**.
+* After investigating the issue, I found that one of the pins **(OUT_B)**  - along with the corresponding track - was burnt.
+* I did some measurements and a couple of the pins of the IC were shorted. After removing the IC, the shorts were gone - which means the IC was toast.
 * I tried to plug the speaker in, after removing the Audio Amp IC, but the fuse **(F1)** blew after a couple minutes of measurements.
-* After removing most of the black glue and desoldering some of the components present in the SMPS section of the board I measured 6.1 ohms on the **R20** resistor - which was marked for 200k ohms.
+* After removing most of the black glue and desoldering some of the components present in the SMPS section of the board, I measured 6.1 ohms on the **R20** resistor - which was marked for 200k ohms.
 * Looking for the cause, I noticed that the **D5** [Rectifying Diode](https://www.mouser.pl/datasheet/3/175/1/ds16005.pdf) and the **D15** [TVS Diode](https://www.mouser.pl/datasheet/3/819/1/1.5KE-HF%20Series%20RevC.pdf) were both shorted.
 * The rest of the components, MOSFET, driver IC, resistors and the electrolytic capacitors look fine.
 * I have now removed D5 along with D15 and will order the replacements, as well as a replacement for the Audio Amp IC.
 * I will give updates when the parts arrive.
 
-## 🛠️ Update
+## 🛠️ Update 1 (27.10.2026)
 * I have successfully replaced the **D5** and **D15** diodes. 
 * To test the power supply safely, I powered on the speaker **WITHOUT** the audio amplifier IC soldered in. I had to leave it out for now because the previous IC burned out and I still need to repair two damaged copper traces on the PCB.
 * As a safety precaution, I powered the device with a 100W incandescent light bulb in series with the mains (dim bulb tester).
 * **The device works!** The logic board boots up, I am able to switch between audio sources, and I even successfully connected my phone to the speaker via Bluetooth.
 * I haven't tried powering the device directly from the wall without the series light bulb yet, but the bulb didn't glow at all during my tests, which is a great sign indicating there are no major shorts left on the board.
-* Also, i have divided the schematic into the **power** stage and the **audio** stage. The audio stage is not finished, and probably never will be, since i have put the speaker back together, but maybe it will help somebody.
+* Also, I have divided the schematic into the **power** stage and the **audio** stage. The audio stage is not finished, and probably never will be, since I have put the speaker back together, but maybe it will help somebody.
 * Next step: I will repair the damaged traces, solder in the new audio amplifier, and post the final results soon!
+
+## 🛠️ Update 2 (29.10.2026)
+* I have soldered in the new Audio Amp **[TAS5342A](https://www.ti.com/lit/ds/symlink/tas5342a.pdf?ts=1777457999025)** and repaired the burnt tracks _([image](png/TSA5342A.jpeg))_.
+* After powering the speaker on (still with the dim bulb limiter), it acted the same way it did before I installed the new amp. Everything was working, except... no sound.
+* After measuring the voltages of the Audio Amp IC, I found that all of the GVDD_x pins were @ **4.3V**. That value seemed odd, so I checked the datasheet.
+* The datasheet says that GVDD_x pins need at least 10.5V to function, typical is 12V.
+* Because of the above, I checked the 12V linear regulator **[KIA7812A](https://www.alldatasheet.com/datasheet-pdf/pdf/85489/KEC/KIA7812AF.html)**. It was outputting the 4V.
+* I checked it again with my lab power supply after desoldering it from the main board. It was drawing 200mA and still outputting 4V with 18V on the input, so it was obviously damaged.
+* I replaced the **[KIA7812A](https://www.alldatasheet.com/datasheet-pdf/pdf/85489/KEC/KIA7812AF.html)** with a **[LM7812](https://www.alldatasheet.pl/datasheet-pdf/pdf/105712/FAIRCHILD/LM7812.html)**.
+* After turning the speaker on, the sound finally worked, although there was some mysterious (very quiet) crackling (?) when no sound was playing.
+* Also - the area around the audio amp was getting warm kind of fast. Which is, I guess, normal since there used to be a big-ass heatsink on top of the audio amp (I removed it to work on the PCB).
+* I will try to stress-test the speaker and also power it on without the dim bulb limiter. I will give updates soon.
+> The 12V regulator is located in the middle of the board, it's attached to a black heatsink. I don't know how it's marked, since it's surrounded by big capacitors.
 
 ## 📄 The Schematic
 
